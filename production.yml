@@ -1,0 +1,79 @@
+services:
+  admin:
+    build:
+      context: .
+      dockerfile: ./compose/production/admin/Dockerfile
+    image: mediastart_production_admin
+    container_name: mediastart_production_admin
+    depends_on:
+      - postgres
+      # - redis
+    volumes:
+      - mediastart_production_media:/app/apps/media
+      - mediastart_production_staticfiles:/app/staticfiles
+    env_file:
+      - ./.envs/.production/.admin
+      - ./.envs/.production/.postgres
+    ports:
+      - '8000:8000'
+    command: /start
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  bot:
+    image: mediastart_production_bot
+    container_name: mediastart_production_bot
+    stop_signal: SIGINT
+    build:
+      context: .
+      dockerfile: ./compose/production/bot/Dockerfile
+    depends_on:
+      - postgres
+    volumes:
+      - mediastart_production_media:/app/media
+    command: python3 -m bot
+    restart: always
+    env_file:
+      - ./.envs/.production/.bot
+      - ./.envs/.production/.postgres
+    logging:
+      driver: "json-file"
+      options:
+        max-size: "200k"
+        max-file: "10"
+
+  postgres:
+    build:
+      context: .
+      dockerfile: ./compose/production/postgres/Dockerfile
+    image: mediastart_production_postgres
+    container_name: mediastart_production_postgres
+    volumes:
+      - mediastart_production_postgres_data:/var/lib/postgresql/data
+      - mediastart_production_postgres_data_backups:/backups
+    env_file:
+      - ./.envs/.production/.postgres
+
+  nginx:
+    restart: always
+    build:
+      context: .
+      dockerfile: ./compose/production/nginx/Dockerfile
+    image: mediastart_production_nginx
+    ports:
+      - 8080:80
+    depends_on:
+      - admin
+    volumes:
+      - mediastart_production_staticfiles:/usr/share/nginx/staticfiles:ro
+      - mediastart_production_media:/usr/share/nginx/media:ro
+
+volumes:
+  mediastart_production_postgres_data: {}
+  mediastart_production_postgres_data_backups: {}
+  mediastart_production_staticfiles: {}
+  mediastart_production_media: {}
+

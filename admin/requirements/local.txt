@@ -1,0 +1,18 @@
+-r production.txt
+
+Werkzeug[watchdog]==3.0.1 # https://github.com/pallets/werkzeug
+ipdb==0.13.13  # https://github.com/gotcha/ipdb
+psycopg[c]==3.1.18  # https://github.com/psycopg/psycopg
+watchfiles==0.21.0  # https://github.com/samuelcolvin/watchfiles
+
+# Code quality
+# ------------------------------------------------------------------------------
+ruff==0.2.1
+coverage==7.4.1  # https://github.com/nedbat/coveragepy
+djlint==1.34.1  # https://github.com/Riverside-Healthcare/djLint
+pre-commit==3.6.1  # https://github.com/pre-commit/pre-commit
+
+# Django
+# ------------------------------------------------------------------------------
+django-extensions==3.2.3  # https://github.com/django-extensions/django-extensions
+django-coverage-plugin==3.1.0  # https://github.com/nedbat/django_coverage_plugin

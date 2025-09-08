@@ -1,0 +1,19 @@
+Pillow==10.2.0  # https://github.com/python-pillow/Pillow
+argon2-cffi==23.1.0  # https://github.com/hynek/argon2_cffi
+Unidecode==1.3.7 # https://pypi.org/project/Unidecode/
+
+# Django
+# ------------------------------------------------------------------------------
+django==4.2.10  # pyup: < 5.0  # https://www.djangoproject.com/
+django-environ==0.11.2  # https://github.com/joke2k/django-environ
+django-model-utils==4.4.0  # https://github.com/jazzband/django-model-utils
+django-redis==5.4.0  # https://github.com/jazzband/django-redis
+django-ckeditor-5==0.2.11 # https://pypi.org/project/django-ckeditor-5/
+
+# Django translation
+django-parler==2.3 # https://github.com/edoburu/django-parler
+
+# Django admin
+django-jazzmin==2.6.0 # https://github.com/farridav/django-jazzmin
+django-admin-sortable2==2.1.10 # https://github.com/jrief/django-admin-sortable2
+django-import-export==3.3.4

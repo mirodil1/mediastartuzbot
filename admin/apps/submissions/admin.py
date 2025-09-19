@@ -1,10 +1,11 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
+from import_export.admin import ImportExportModelAdmin
 
 from .models import Submission
 
 @admin.register(Submission)
-class SubmissionAdmin(admin.ModelAdmin):
+class SubmissionAdmin(ImportExportModelAdmin):
     list_display = (
         "full_name",
         "full_area",

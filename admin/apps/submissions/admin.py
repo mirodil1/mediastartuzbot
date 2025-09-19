@@ -22,7 +22,7 @@ class SubmissionResource(resources.ModelResource):
         # Combine Region, District, and Mahalla names in a readable format
         return f"{region.name} > {district.name} > {mahalla.name}"
 
-    def dehydrate_age(self, submission):
+    def dehydrate_date_of_birth(self, submission):
         # Calculate age from date_of_birth
         today = date.today()
         birth_date = submission.date_of_birth
@@ -38,7 +38,7 @@ class SubmissionResource(resources.ModelResource):
         model = Submission
         fields = (
             "full_name",
-            "age",
+            "date_of_birth",
             "area",
             "phone_number",
             "education",

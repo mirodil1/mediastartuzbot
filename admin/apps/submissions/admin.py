@@ -1,11 +1,58 @@
 from django.contrib import admin
 from django.utils.translation import gettext_lazy as _
 from import_export.admin import ImportExportModelAdmin
+from import_export.admin import ExportMixin
+
+from import_export import resources
+from datetime import date
 
 from .models import Submission
 
+
+class SubmissionResource(resources.ModelResource):
+    # Custom field to export full hierarchy
+    area = resources.Field()
+
+    def dehydrate_area(self, submission):
+        # Access related models and build the full hierarchy
+        mahalla = submission.area
+        district = mahalla.district
+        region = district.region
+
+        # Combine Region, District, and Mahalla names in a readable format
+        return f"{region.name} > {district.name} > {mahalla.name}"
+
+    def dehydrate_age(self, submission):
+        # Calculate age from date_of_birth
+        today = date.today()
+        birth_date = submission.date_of_birth
+        age = today.year - birth_date.year
+
+        # Adjust age if birthday hasn't occurred yet this year
+        if today.month < birth_date.month or (today.month == birth_date.month and today.day < birth_date.day):
+            age -= 1
+
+        return age
+    
+    class Meta:
+        model = Submission
+        fields = (
+            "full_name",
+            "age",
+            "area",
+            "phone_number",
+            "education",
+            "photo", 
+            "certificate",
+            "creative_work",
+            "created_at",
+        )
+
+
+
 @admin.register(Submission)
-class SubmissionAdmin(ImportExportModelAdmin):
+class SubmissionAdmin(ExportMixin, admin.ModelAdmin):
+    resource_class = SubmissionResource
     list_display = (
         "full_name",
         "full_area",

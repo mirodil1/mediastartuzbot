@@ -6,10 +6,10 @@ from .submission import submission_router
 
 
 routers_list = [
+    echo_router,  # echo_router must be last
     admin_router,
     user_router,
     submission_router,
-    echo_router,  # echo_router must be last
 ]
 
 __all__ = [

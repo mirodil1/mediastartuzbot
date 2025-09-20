@@ -8,4 +8,4 @@ echo_router = Router()
 
 @echo_router.message(F.text, StateFilter(None))
 async def bot_echo(message: types.Message):
-    await message.answer("Xush kelibsiz!")
+    await message.answer("Arizalar qabuli yakunlandi.")
